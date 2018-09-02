@@ -13,6 +13,7 @@
 		<!-- Aqui são listadas todas as entidades
 			Todas as entidades precisam estar mapeadas  -->
 		<class>com.andersonmarques.model.Conta</class>
+		<class>com.andersonmarques.model.Movimentacao</class>
 
 		<properties>
 			<!-- Propriedades JDBC -->
