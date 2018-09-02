@@ -1,27 +1,83 @@
 package com.andersonmarques;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import com.andersonmarques.model.Conta;
-
+import com.andersonmarques.util.JPAUtil;
 
 public class MainJPA {
 
 	public static void main(String[] args) {
-		Conta conta = new Conta("Anderson", "123", "6543", "Banco de novigrad");
-		
-		EntityManagerFactory entityManagerFactory = 
-				//Nome da persistence-unit no xml, podemos ter varias, cada uma referente a um banco de dados.
-				Persistence.createEntityManagerFactory("financas-mysql");
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		
+		//inserirContaDefault();
+		//buscarConta();
+		removerConta();
+	}
+
+	
+	/**
+	 * Inserir conta padrão no banco.
+	 */
+	public static void inserirContaDefault() {
+		Conta conta = new Conta("Anderson", "123", "6543", "Banco de Novigrad");
+
+		EntityManager entityManager = new JPAUtil().getEntityManager();
+
 		entityManager.getTransaction().begin();
 		entityManager.persist(conta);
-        entityManager.getTransaction().commit();
-		
+		entityManager.getTransaction().commit();
+
 		entityManager.close();
-		entityManagerFactory.close();
+	}
+
+	
+	/**
+	 * Buscar conta padrão no banco.
+	 */
+	private static void buscarConta() {
+		EntityManager entityManager = new JPAUtil().getEntityManager();
+		entityManager.getTransaction().begin();
+		
+		//Classe e ID
+		Conta conta = entityManager.find(Conta.class, 1);
+		System.out.println(conta);
+		
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		
+		fazerMerge(conta);
+	}
+
+
+	/**
+	 * Faz o merge(Update) da conta padrão, 
+	 * sincronizando os dados alterados em memória com os existentes no banco.
+	 * 
+	 * @param conta
+	 */
+	private static void fazerMerge(Conta conta) {
+		EntityManager entityManager2 = new JPAUtil().getEntityManager();
+		entityManager2.getTransaction().begin();
+
+		/* Quando a conta não é transient e já foi persistida, 
+		 * para sincronizar as informações, é preciso usar o merge */
+		conta.setTitular("Vesemir");
+		entityManager2.merge(conta);
+		System.out.println(conta);
+		
+		entityManager2.getTransaction().commit();
+		entityManager2.close();
+	}
+	
+	
+	private static void removerConta() {
+		EntityManager entityManager = new JPAUtil().getEntityManager();
+		entityManager.getTransaction().begin();
+		
+		//Classe e ID
+		Conta conta = entityManager.find(Conta.class, 1);
+		entityManager.remove(conta);
+		
+		entityManager.getTransaction().commit();
+		entityManager.close();
 	}
 }
