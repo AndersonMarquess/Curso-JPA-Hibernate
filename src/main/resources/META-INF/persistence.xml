@@ -14,6 +14,8 @@
 			Todas as entidades precisam estar mapeadas  -->
 		<class>com.andersonmarques.model.Conta</class>
 		<class>com.andersonmarques.model.Movimentacao</class>
+		<class>com.andersonmarques.model.Categoria</class>
+		<class>com.andersonmarques.model.Cliente</class>
 
 		<properties>
 			<!-- Propriedades JDBC -->

@@ -19,7 +19,8 @@ public class DBService {
 		Conta conta3 = new Conta("Ciri", "889", "7421", "Banco de Teméria");
 		Conta conta4 = new Conta("Dandelion", "632", "5874", "Banco de Novigrad");
 		
-		EntityManager entityManager = new JPAUtil().getEntityManager();
+		JPAUtil jpaUtil = new JPAUtil();
+		EntityManager entityManager = jpaUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 		
 		entityManager.persist(conta1);
@@ -29,5 +30,6 @@ public class DBService {
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
+		jpaUtil.fecharFactory();
 	}
 }

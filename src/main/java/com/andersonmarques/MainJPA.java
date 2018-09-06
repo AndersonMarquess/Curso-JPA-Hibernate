@@ -20,13 +20,15 @@ public class MainJPA {
 	public static void inserirContaDefault() {
 		Conta conta = new Conta("Anderson", "123", "6543", "Banco de Novigrad");
 
-		EntityManager entityManager = new JPAUtil().getEntityManager();
+		JPAUtil jpaUtil = new JPAUtil();
+		EntityManager entityManager = jpaUtil.getEntityManager();
 
 		entityManager.getTransaction().begin();
 		entityManager.persist(conta);
 		entityManager.getTransaction().commit();
 
 		entityManager.close();
+		jpaUtil.fecharFactory();
 	}
 
 	
@@ -34,7 +36,8 @@ public class MainJPA {
 	 * Buscar conta padrão no banco.
 	 */
 	private static void buscarConta() {
-		EntityManager entityManager = new JPAUtil().getEntityManager();
+		JPAUtil jpaUtil = new JPAUtil();
+		EntityManager entityManager = jpaUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 		
 		//Classe e ID
@@ -45,6 +48,7 @@ public class MainJPA {
 		entityManager.close();
 		
 		fazerMerge(conta);
+		jpaUtil.fecharFactory();
 	}
 
 
@@ -55,7 +59,8 @@ public class MainJPA {
 	 * @param conta
 	 */
 	private static void fazerMerge(Conta conta) {
-		EntityManager entityManager2 = new JPAUtil().getEntityManager();
+		JPAUtil jpaUtil = new JPAUtil();
+		EntityManager entityManager2 = jpaUtil.getEntityManager();
 		entityManager2.getTransaction().begin();
 
 		/* Quando a conta não é transient e já foi persistida, 
@@ -66,11 +71,13 @@ public class MainJPA {
 		
 		entityManager2.getTransaction().commit();
 		entityManager2.close();
+		jpaUtil.fecharFactory();
 	}
 	
 	
 	private static void removerConta() {
-		EntityManager entityManager = new JPAUtil().getEntityManager();
+		JPAUtil jpaUtil = new JPAUtil();
+		EntityManager entityManager = jpaUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 		
 		//Classe e ID
@@ -79,5 +86,6 @@ public class MainJPA {
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
+		jpaUtil.fecharFactory();
 	}
 }

@@ -29,6 +29,10 @@ public class Conta {
 	public void setTitular(String titular) {
 		this.titular = titular;
 	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {
