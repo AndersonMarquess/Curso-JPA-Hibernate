@@ -23,9 +23,12 @@ public class MainJPARelacionamento {
 				Calendar.getInstance(), "Alfaiate", conta);
 		Movimentacao movimentacao2 = new Movimentacao(BigDecimal.valueOf(150.00d), TipoMovimentacao.SAIDA,
 				Calendar.getInstance(), "Ferreiro", conta);
+		Movimentacao movimentacao3 = new Movimentacao(BigDecimal.valueOf(75.00d), TipoMovimentacao.ENTRADA,
+				Calendar.getInstance(), "Recompensa", conta);
 		
 		movimentacao1.setCategorias(Arrays.asList(categoria1, categoria2));
 		movimentacao2.setCategorias(Arrays.asList(categoria1, categoria2));
+		movimentacao3.setCategorias(Arrays.asList(categoria2));
 
 		
 		/* Transação */
@@ -38,6 +41,7 @@ public class MainJPARelacionamento {
 		entityManager.persist(categoria2);
 		entityManager.persist(movimentacao1);
 		entityManager.persist(movimentacao2);
+		entityManager.persist(movimentacao3);
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
