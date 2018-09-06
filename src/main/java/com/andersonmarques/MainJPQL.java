@@ -1,6 +1,9 @@
 package com.andersonmarques;
 
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -24,14 +27,27 @@ public class MainJPQL {
 		EntityManager entityManager = jpaUtil.getEntityManager();
 		entityManager.getTransaction().begin();
 
-		procurarMovimentacaoConta(entityManager);
-		procurarMovimentacaoPorCategoria(entityManager);
+		//procurarMovimentacaoConta(entityManager);
+		//procurarMovimentacaoPorCategoria(entityManager);
+
+		//LEFT JOIN FETCH Muda o lazy da lista de movimentações da conta, resolvendo o N+1
+		//LEFT JOIN para trazer todas as contas, mesmo que ela não possua movimentações.
+		String jpql = "SELECT DISTINCT c FROM Conta c LEFT JOIN FETCH c.movimentacoes";
+		Query query = entityManager.createQuery(jpql);
+		List<Conta> contas = query.getResultList();
 		
+		for(Conta c : contas) {
+			System.out.println("Titular: "+c.getTitular());
+			System.out.println("Movimentações: ");
+			System.out.println(c.getMovimentacoes());
+		}
+
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		jpaUtil.fecharFactory();
 	}
 
+	
 	/**
 	 * Procura as movimentações com a categoria de ID 2
 	 * @param entityManager
@@ -45,7 +61,7 @@ public class MainJPQL {
 		query.setParameter("pCategoria", categoria);
 		
 		List<Movimentacao> result = query.getResultList();
-		printResultQueryMovimentacao(result);
+		printListMovimentacao(result);
 	}
 	
 
@@ -66,11 +82,11 @@ public class MainJPQL {
 		query.setParameter("pConta", conta);
 		query.setParameter("pTipo", TipoMovimentacao.SAIDA);
 		List<Movimentacao> result = query.getResultList();
-		printResultQueryMovimentacao(result);
+		printListMovimentacao(result);
 	}
 
 
-	private static void printResultQueryMovimentacao(List<Movimentacao> movimentacoes) {
+	private static void printListMovimentacao(List<Movimentacao> movimentacoes) {
 		
 		for (Movimentacao movimentacao : movimentacoes) {
 			System.out.println("Descrição: "+movimentacao.getDescricao());

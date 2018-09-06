@@ -1,6 +1,7 @@
 package com.andersonmarques.model;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -63,19 +64,20 @@ public class Movimentacao {
 	public TipoMovimentacao getTipo() {
 		return tipo;
 	}
+	
+	public Calendar getData() {
+		return data;
+	}
 
 	/**
-	 * Converte o calendar em uma string no formato "dd-MM-yyyy HH:MM"
+	 * Converte o calendar em uma string no formato "dd-MM-yyyy HH:mm"
 	 * 
 	 * @return String com data formatada
 	 */
 	public String getDataFormatada() {
-		ZoneId defaultZoneId = ZoneId.systemDefault();
-		Instant instant = data.toInstant();
-		LocalDateTime localDate = instant.atZone(defaultZoneId).toLocalDateTime();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:MM");
-        
-		return localDate.format(formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+        		.withZone(ZoneOffset.UTC);
+		return formatter.format(data.toInstant());
 	}
 
 	public String getDescricao() {

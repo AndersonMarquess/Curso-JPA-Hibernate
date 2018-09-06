@@ -1,9 +1,12 @@
 package com.andersonmarques.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 //Informa que esta classe é uma entidade
 @Entity
@@ -15,6 +18,11 @@ public class Conta {
 	private String agencia;
 	private String numero;
 	private String banco;
+
+	//Uma conta para muitas movimentações
+	//conta presente na classe Movimentacao
+	@OneToMany(mappedBy="conta")
+	private List<Movimentacao> movimentacoes;
 
 	public Conta() {
 	}
@@ -32,6 +40,14 @@ public class Conta {
 	
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getTitular() {
+		return titular;
+	}
+	
+	public List<Movimentacao> getMovimentacoes() {
+		return movimentacoes;
 	}
 
 	@Override
