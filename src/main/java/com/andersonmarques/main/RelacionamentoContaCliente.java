@@ -1,4 +1,4 @@
-package com.andersonmarques;
+package com.andersonmarques.main;
 
 import javax.persistence.EntityManager;
 

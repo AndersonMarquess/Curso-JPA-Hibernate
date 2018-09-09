@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 import com.andersonmarques.model.Conta;
 import com.andersonmarques.util.JPAUtil;
 
-public class MainJPA {
+public class CrudJPA {
 
 	public static void main(String[] args) {
 		//inserirContaDefault();

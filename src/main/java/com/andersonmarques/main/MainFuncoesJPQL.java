@@ -1,4 +1,4 @@
-package com.andersonmarques;
+package com.andersonmarques.main;
 
 import java.math.BigDecimal;
 import java.util.List;
